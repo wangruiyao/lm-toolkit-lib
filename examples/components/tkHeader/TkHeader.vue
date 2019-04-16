@@ -1,6 +1,6 @@
 <template>
   <div id="tk-header">
-    <tk-header-back></tk-header-back>
+    <tk-header-back @clickBackBtn="clickBackBtn"></tk-header-back>
     <div class="tk-header-container">
       <slot></slot>
     </div>
@@ -12,6 +12,11 @@
   export default {
     name: "TkHeader",
     components: {tkHeaderBack},
+    methods: {
+      clickBackBtn() {
+        this.$emit('handleBackClick')
+      }
+    }
   }
 </script>
 

@@ -3,7 +3,7 @@
 <template>
   <div id="tk-city-picker-input-filter">
     <div v-show="list.length !== 0">
-      <div class="item" v-for="item in list" :key="item.eparchy" @click="handleSelectCity(item.eparchy)">
+      <div class="item" v-for="item in list" :key="item.eparchy" @click="handleSelectCity(item)">
         {{item.city}}
       </div>
     </div>
@@ -24,8 +24,8 @@
       }
     },
     methods: {
-      handleSelectCity(eparchyCode) {
-        this.$emit('selectCity', eparchyCode)
+      handleSelectCity(cityInfo) {
+        this.$emit('selectCity', cityInfo)
       }
     }
   }

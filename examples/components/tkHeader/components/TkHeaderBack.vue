@@ -1,12 +1,17 @@
 <template>
-  <div id="tk-header-back">
+  <div id="tk-header-back" @click="handleClickBackBtn">
     <i class="iconfont">&#xeb99;</i>
   </div>
 </template>
 
 <script>
   export default {
-    name: "TkHeaderBack"
+    name: "TkHeaderBack",
+    methods: {
+      handleClickBackBtn() {
+        this.$emit('clickBackBtn')
+      }
+    }
   }
 </script>
 

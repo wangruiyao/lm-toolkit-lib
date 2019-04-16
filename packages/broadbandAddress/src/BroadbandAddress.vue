@@ -1,12 +1,16 @@
 <template>
   <div id="broadband-address">
-    <div v-show="false">
+    <div v-if="!globalState.showCityPicker">
       <!-- 头部 -->
       <tk-header>
+        <!--<span @click="test">获取</span>-->
         <div class="header-search">
           <tk-search place-holder="地址关键字" @search="queryInfo"></tk-search>
         </div>
-        <tk-header-filter></tk-header-filter>
+        <div @click="toggleCitypicker(true)">
+          <tk-header-filter :city-name="globalState.nowCityInfo.city"></tk-header-filter>
+        </div>
+
       </tk-header>
       <!-- 列表 -->
       <tk-scroll ref="wrapper"
@@ -16,11 +20,15 @@
                  @scrollToEnd="scrollToEnd"
                  @setScroll="setScroll"
                  @beforeScroll = "beforeScroll"
-                 @scroll="scroll">
+                 >
         <list-item v-for="item in dataInfo" :key="item.id"></list-item>
       </tk-scroll>
     </div>
-    <tk-city-picker></tk-city-picker>
+    <!-- 城市选择控件 -->
+    <tk-city-picker v-if="globalState.showCityPicker"
+                    @handleselectCity="selectCity"
+                    @handleBackClick="toggleCitypicker(false)">
+    </tk-city-picker>
   </div>
 </template>
 
@@ -36,16 +44,31 @@
     components: {TkCityPicker, ListItem, TkScroll, TkHeaderFilter, TkSearch, TkHeader},
     data() {
       return {
-        dataInfo: [
-          '测试',
-          '测试',
-          '测试',
-          '测试',
-          '测试'
-        ]
+        globalState: {  // 当前组件状态属性
+          nowCityInfo: {
+            city: '济南',
+            eparchy: '0531'
+          },
+          showCityPicker: false
+        },
+
+        dataInfo: []
       }
     },
     methods:{
+      test() {
+       this.dataInfo = [
+         '测试',
+         '测试',
+         '测试',
+         '测试',
+         '测试',
+         '测试',
+         '测试',
+         '测试',
+         '测试'
+       ]
+      },
       queryInfo(info) {alert(info)},
       scrollToEnd(scroll){
         this.scroll = scroll;
@@ -56,10 +79,17 @@
         console.log("scroll创建成功");
       },
       scroll(pos){
-        console.log(pos);//监听滚动坐标
+        // console.log(pos);//监听滚动坐标
       },
       beforeScroll(){
         console.log('滚动之前');
+      },
+      selectCity(cityInfo) {
+        this.globalState.nowCityInfo = cityInfo
+        this.toggleCitypicker(false)
+      },
+      toggleCitypicker(state) { // 是否显示时间控件
+        this.globalState.showCityPicker = state
       }
     }
   }

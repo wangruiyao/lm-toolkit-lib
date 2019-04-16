@@ -1,12 +1,15 @@
 <template>
   <div id="tk-header-filter">
-    <i class="iconfont">&#xe695;</i>济南
+    <i class="iconfont">&#xe695;</i>{{cityName}}
   </div>
 </template>
 
 <script>
   export default {
-    name: "TkHeaderFilter"
+    name: "TkHeaderFilter",
+    props: {
+      cityName: String
+    }
   }
 </script>
 

@@ -1,13 +1,16 @@
 <template>
   <div id="tk-search">
-    <form  @submit.prevent action="#">
+    <form @submit.prevent action="#">
       <input type="search" v-model="searchInfo"
              @focus="handleInputfocus"
              @blur="handleInputBlur"
              @keypress="mobileSearch"
              @keyup.enter="pcSearch"
              :placeholder="placeHolder" />
-      <span class="input-cancle">关闭</span>
+      <i class="input-cancle iconfont"
+         v-show="showCloseIcon && showCancleBtn"
+         @click="handleCancleInput">&#xe7be;
+      </i>
     </form>
   </div>
 </template>
@@ -17,13 +20,18 @@
     name: "TkSearch",
     props: {
       'placeHolder': {
-        typeof: String,
+        type: String,
         default: `搜索`
+      },
+      'showCloseIcon': {
+        type: Boolean,
+        default: false
       }
     },
     data() {
       return {
-        searchInfo: ''
+        searchInfo: '',
+        showCancleBtn: false
       }
     },
     methods: {
@@ -41,10 +49,19 @@
         this.$emit('search', this.searchInfo)
       },
       handleInputfocus() {
+        this.showCancleBtn = true;
         this.$emit('inputFocus')
       },
       handleInputBlur() {
+        if(this.searchInfo === '') {
+          this.handleCancleInput()
+        }
         this.$emit('inputBlur')
+      },
+      handleCancleInput() {
+        this.showCancleBtn = false;
+        this.searchInfo = ''
+        this.$emit('inputCancle')
       }
     },
     watch: {
@@ -57,6 +74,7 @@
 
 <style lang="scss" scoped>
   #tk-search {
+    background: #fff;
     position: relative;
     input {
       border: none;
@@ -70,8 +88,11 @@
     width: 100%;
     padding: 0 10px;
     .input-cancle {
+      margin-top: 2px;
       position: absolute;
       right: 10px;
+      color: #999;
+      font-size: 14px;
     }
   }
 </style>

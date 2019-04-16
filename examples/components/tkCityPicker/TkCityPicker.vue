@@ -1,10 +1,12 @@
 <template>
   <div id="tk-city-picker">
-    <tk-header>
+    <tk-header @handleBackClick="handleBackClick">
       <tk-search place-holder="城市中文名或拼音"
+                 :show-close-icon="true"
                  @watchInput="watchInputChance"
                  @inputFocus="inputFocus"
-                 @inputBlur="inputBlur">
+                 @inputBlur="inputBlur"
+                 @inputCancle="inputCancle">
 
       </tk-search>
     </tk-header>
@@ -35,9 +37,6 @@
         filterList: []
       }
     },
-    mounted() {
-      console.log(this.cityList)
-    },
     methods: {
       watchInputChance(newVal) {
         let list = [];
@@ -48,11 +47,14 @@
         });
         this.filterList = list
         this.globalState.showMasker = false
-        this.globalState.showModule = 'cityFilter'
+        if (newVal !== '') {
+          this.globalState.showModule = 'cityFilter'
+        }
+
       },
-      selectCity(eparchy) {
-        this.globalState.showModule = 'cityList'
-        alert(eparchy)
+      selectCity(cityInfo) {
+        this.globalState.showModule = 'cityList';
+        this.$emit('handleselectCity', cityInfo)
       },
       inputFocus() {
         this.globalState.showMasker = true
@@ -60,6 +62,12 @@
       inputBlur(){
         this.globalState.showMasker = false
         // this.globalState.showModule = 'cityList'
+      },
+      inputCancle() {
+        this.globalState.showModule = 'cityList'
+      },
+      handleBackClick() { // 返回
+        this.$emit('handleBackClick')
       }
     }
   }

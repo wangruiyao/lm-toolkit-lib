@@ -7,7 +7,7 @@
                >
       <div class="city-list-item" v-for="(item, key) in cityList" :key="key">
         <div class="first-letter">{{key}}</div>
-        <div class="city-name-item" v-for="i in item" @click="handleSelectCity(i.eparchy)">{{i.city}}</div>
+        <div class="city-name-item" v-for="i in item" @click="handleSelectCity(i)">{{i.city}}</div>
       </div>
     </tk-scroll>
   </div>
@@ -63,8 +63,8 @@
         })
         this.cityList = citySortList
       },
-      handleSelectCity(eparchycode) {
-        this.$emit('selectCity', eparchycode)
+      handleSelectCity(cityInfo) {
+        this.$emit('selectCity', cityInfo)
       }
     }
   }
