@@ -26,12 +26,18 @@
         //  触发搜索
           this.search()
         }
+
       },
       pcSearch() {
         this.search()
       },
       search() {
         this.$emit('search', this.searchInfo)
+      }
+    },
+    watch: {
+      searchInfo(newVal) {
+        this.$emit('watchInput', newVal)
       }
     }
   }

@@ -10,7 +10,9 @@
   "dependencies": {
     "better-scroll": "^1.15.1",
     "core-js": "^2.6.5",
+    "js-pinyin": "^0.1.9",
     "lib-flexible": "^0.3.2",
+    "pinyin": "^2.8.3",
     "postcss-px2rem": "^0.3.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
