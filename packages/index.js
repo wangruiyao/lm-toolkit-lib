@@ -1,3 +1,4 @@
+import 'core/use'
 // 导入组件
 import broadbandAddress from './broadbandAddress'
 // 存储组件列表

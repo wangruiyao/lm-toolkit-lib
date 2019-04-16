@@ -8,7 +8,10 @@
     "lib": "vue-cli-service build --target lib --name toolkit --dest lib packages/index.js"
   },
   "dependencies": {
+    "better-scroll": "^1.15.1",
     "core-js": "^2.6.5",
+    "lib-flexible": "^0.3.2",
+    "postcss-px2rem": "^0.3.0",
     "vue": "^2.6.10",
     "vue-router": "^3.0.3",
     "vuex": "^3.0.1"
