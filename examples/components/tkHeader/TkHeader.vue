@@ -18,6 +18,7 @@
 <style lang="scss" scoped>
   #tk-header {
     position: fixed;
+    z-index: 999;
     background: $header-background;
     height: $header-height;
     width: 100%;

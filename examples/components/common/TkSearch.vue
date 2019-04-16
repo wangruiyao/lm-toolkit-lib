@@ -1,7 +1,13 @@
 <template>
   <div id="tk-search">
     <form  @submit.prevent action="#">
-      <input @keypress="mobileSearch" @keyup.enter="pcSearch" type="search" v-model="searchInfo" :placeholder="placeHolder" />
+      <input type="search" v-model="searchInfo"
+             @focus="handleInputfocus"
+             @blur="handleInputBlur"
+             @keypress="mobileSearch"
+             @keyup.enter="pcSearch"
+             :placeholder="placeHolder" />
+      <span class="input-cancle">关闭</span>
     </form>
   </div>
 </template>
@@ -33,6 +39,12 @@
       },
       search() {
         this.$emit('search', this.searchInfo)
+      },
+      handleInputfocus() {
+        this.$emit('inputFocus')
+      },
+      handleInputBlur() {
+        this.$emit('inputBlur')
       }
     },
     watch: {
@@ -45,6 +57,7 @@
 
 <style lang="scss" scoped>
   #tk-search {
+    position: relative;
     input {
       border: none;
       width: 100%;
@@ -56,5 +69,9 @@
     border-radius: 50px;
     width: 100%;
     padding: 0 10px;
+    .input-cancle {
+      position: absolute;
+      right: 10px;
+    }
   }
 </style>

@@ -2,9 +2,13 @@
 
 <template>
   <div id="tk-city-picker-input-filter">
-    <div class="item" v-for="item in list">
-      {{item.city}}
+    <div v-show="list.length !== 0">
+      <div class="item" v-for="item in list" :key="item.eparchy" @click="handleSelectCity(item.eparchy)">
+        {{item.city}}
+      </div>
     </div>
+
+    <div v-show="list.length === 0">没有找到相关城市</div>
   </div>
 </template>
 
@@ -13,6 +17,16 @@
     name: "filterList",
     props: {
       list: Array
+    },
+    data() {
+      return {
+        showList: true
+      }
+    },
+    methods: {
+      handleSelectCity(eparchyCode) {
+        this.$emit('selectCity', eparchyCode)
+      }
     }
   }
 </script>
