@@ -1,7 +1,7 @@
 <template>
   <div id="broadband-list-item">
-    <div class="list-item-title" @click="toggleItemContainer()">
-      山东省济南市历下区解放路231号国华经典
+    <div class="list-item-title" @click="toggleItemContainer(itemInfo)">
+      {{itemInfo.address_name}}
     </div>
     <div class="list-item-container" v-show="toggleState">
       <ul class="list-item-container-table">
@@ -12,10 +12,10 @@
           <span>局向名称</span>
         </li>
         <li>
-          <span class="link">FTTH</span>
-          <span>FTTH(可用onu宽带接口1个)</span>
-          <span>01119235</span>
-          <span>（H804）黄台 FTTH （ETON）</span>
+          <span class="link">{{itemSource.access}}</span>
+          <span>{{itemSource.type_name}}</span>
+          <span>{{itemSource.exch_code}}</span>
+          <span>{{itemSource.exch_name}}</span>
         </li>
       </ul>
       <div class="list-item-container-buttom">点击复制标准地址</div>
@@ -24,15 +24,49 @@
 </template>
 
 <script>
+  import {addressResSer} from 'api/broadbandAddress/addressResSer.js'
   export default {
     name: "ListItem",
+    props: {
+      itemInfo: Object
+    },
     data() {
       return {
-        toggleState: true
+        toggleState: false,
+        itemSource: {
+          type_name: "",
+          exch_code: "",
+          access: "",
+          exch_name: ""
+        },
+        hasReqSource: false
       }
     },
     methods: {
-      toggleItemContainer() {
+      addressResSer(params) { // 标准地址资源查询
+        addressResSer(params).then((params) => {
+          if(params.msg === '0') {
+            this.itemSource = params.data[0]
+          } else {
+            alert(params.msg)
+          }
+
+        }).catch((err) => {
+          console.log(err)
+        })
+      },
+      toggleItemContainer(itemInfo) {
+        const queryParams = {
+          eparchy: itemInfo.eparchy,
+          addressCode:itemInfo.address_code,
+          exchCode: itemInfo.exch_code
+        };
+        console.log('params'+ JSON.stringify(queryParams))
+        this.addressResSer(queryParams)
+        if(!this.hasReqSource){
+          this.hasReqSource = true
+          console.log(itemInfo)
+        }
         this.toggleState = !this.toggleState
       }
     }

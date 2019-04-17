@@ -36,16 +36,21 @@
     },
     methods: {
       mobileSearch(event) {
-        if(event.keyCode === 13) {
-        //  触发搜索
-          this.search()
+        if (/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent)) { //移动端触发搜索
+          if(event.keyCode === 13) {
+            this.search()
+          }
         }
 
       },
       pcSearch() {
-        this.search()
+        if (!(/(iPhone|iPad|iPod|iOS|Android)/i.test(navigator.userAgent))) { //移动端触发搜索
+          this.search()
+        }
+
       },
       search() {
+        alert(2)
         this.$emit('search', this.searchInfo)
       },
       handleInputfocus() {

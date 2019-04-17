@@ -1,6 +1,6 @@
 <template>
   <div id="broadband-address">
-    <div v-if="!globalState.showCityPicker">
+    <div v-show="!globalState.showCityPicker">
       <!-- 头部 -->
       <tk-header>
         <!--<span @click="test">获取</span>-->
@@ -19,9 +19,10 @@
                  :data="dataInfo"
                  @scrollToEnd="scrollToEnd"
                  @setScroll="setScroll"
-                 @beforeScroll = "beforeScroll"
                  >
-        <list-item v-for="item in dataInfo" :key="item.id"></list-item>
+        <list-item v-for="item in dataInfo"
+                   :key="item.id"
+                   :item-info="item"></list-item>
       </tk-scroll>
     </div>
     <!-- 城市选择控件 -->
@@ -39,6 +40,8 @@
   import TkScroll from "../../../examples/components/tkScroll/TkScroll";
   import ListItem from "./pages/ListItem";
   import TkCityPicker from "../../../examples/components/tkCityPicker/TkCityPicker";
+
+  import {addressSearch} from 'api/broadbandAddress/addressSearch.js'
   export default {
     name: "BroadbandAddress",
     components: {TkCityPicker, ListItem, TkScroll, TkHeaderFilter, TkSearch, TkHeader},
@@ -51,25 +54,36 @@
           },
           showCityPicker: false
         },
-
-        dataInfo: []
+        dataInfo: [],
+        searchAddressParams: {
+          addressKeyword: '',
+          eparchy: '0531'
+        }
       }
     },
+    mounted() {},
     methods:{
       test() {
-       this.dataInfo = [
-         '测试',
-         '测试',
-         '测试',
-         '测试',
-         '测试',
-         '测试',
-         '测试',
-         '测试',
-         '测试'
-       ]
+        this.dataInfo = [1,1,1]
       },
-      queryInfo(info) {alert(info)},
+      searchAddress() {
+        // 山东省济南市历下区工业南路389号解放路与工业南路交叉口院内2号楼102
+        addressSearch(this.searchAddressParams).then(data => {
+          console.log('地址信息:'+JSON.stringify(data))
+          if (data.msg === '0') {
+            this.dataInfo = data.data
+          } else {
+            alert(data.msg)
+          }
+        })
+        .catch(data => {
+          console.log("1111111111111" + data)
+        })
+      },
+      queryInfo(info) {
+        this.searchAddressParams.addressKeyword = info
+        this.searchAddress()
+      },
       scrollToEnd(scroll){
         this.scroll = scroll;
         console.log("下拉到最底下");
@@ -81,11 +95,10 @@
       scroll(pos){
         // console.log(pos);//监听滚动坐标
       },
-      beforeScroll(){
-        console.log('滚动之前');
-      },
       selectCity(cityInfo) {
-        this.globalState.nowCityInfo = cityInfo
+        this.globalState.nowCityInfo = cityInfo;
+        this.searchAddressParams.eparchy = cityInfo.eparchy;
+        console.log(this.searchAddressParams);
         this.toggleCitypicker(false)
       },
       toggleCitypicker(state) { // 是否显示时间控件

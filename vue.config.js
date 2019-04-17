@@ -30,6 +30,19 @@ module.exports = {
       }
     }
   },
+  devServer: {
+    historyApiFallback: true, // history模式开启
+    proxy: {
+      '/api': {
+        // target: 'http://yapi.demo.qunar.com/mock/62969/toolkit',
+        target: 'http://192.168.0.210:7700/externallogic-lvyg/emarketOpenController/',
+        changeOrigin: true,
+        pathRewrite:{
+          '^/api':''
+        }
+      }
+    }
+  },
   // 扩展 webpack 配置，使 packages 加入编译
   chainWebpack: config => {
     config.module
@@ -51,5 +64,7 @@ module.exports = {
       .set('packages', resolve('packages'))
       .set('views', resolve('examples/views'))
       .set('core', resolve('examples/core'))
+      .set('utils', resolve('examples/utils'))
+      .set('api', resolve('examples/api'))
   }
 };
