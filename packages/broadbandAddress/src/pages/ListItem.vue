@@ -1,7 +1,7 @@
 <template>
   <div id="broadband-list-item">
     <div class="list-item-title" @click="toggleItemContainer(itemInfo)">
-      {{itemInfo.address_name}}
+      <span :id="'inputidx_'+itemIdx">{{itemInfo.address_name}}</span>
     </div>
     <div class="list-item-container" v-show="toggleState">
       <ul class="list-item-container-table">
@@ -18,7 +18,13 @@
           <span>{{itemSource.exch_name}}</span>
         </li>
       </ul>
-      <div class="list-item-container-buttom">点击复制标准地址</div>
+      <!--<button ref="copy" data-clipboard-action="copy" :data-clipboard-target="'#inputidx_'+itemIdx" @click="copyLink">复制</button>-->
+      <div class="list-item-container-buttom"
+           ref="copy"
+           data-clipboard-action="copy"
+           :data-clipboard-target="'#inputidx_'+itemIdx"
+           @click="copyLink">点击复制标准地址
+      </div>
     </div>
   </div>
 </template>
@@ -28,10 +34,12 @@
   export default {
     name: "ListItem",
     props: {
-      itemInfo: Object
+      itemInfo: Object,
+      itemIdx: Number
     },
     data() {
       return {
+        copyBtn: null, //存储初始化复制按钮事件
         toggleState: false,
         itemSource: {
           type_name: "",
@@ -42,7 +50,14 @@
         hasReqSource: false
       }
     },
+    mounted() {
+      // console.log(this.$refs.copy[this.itemIdx])
+      // this.copyBtn = new clipboard(this.$refs.copy)
+    },
     methods: {
+      createCopyBtn() {
+        this.copyBtn = new clipboard(this.$refs.copy)
+      },
       addressResSer(params) { // 标准地址资源查询
         addressResSer(params).then((params) => {
           if(params.msg === '0') {
@@ -56,18 +71,35 @@
         })
       },
       toggleItemContainer(itemInfo) {
+
         const queryParams = {
           eparchy: itemInfo.eparchy,
           addressCode:itemInfo.address_code,
           exchCode: itemInfo.exch_code
         };
-        console.log('params'+ JSON.stringify(queryParams))
+        // console.log('params'+ JSON.stringify(queryParams))
         this.addressResSer(queryParams)
         if(!this.hasReqSource){
+          this.createCopyBtn()
           this.hasReqSource = true
           console.log(itemInfo)
         }
         this.toggleState = !this.toggleState
+      },
+
+
+
+      copyLink() {
+        /*这是点击按钮触发的点击事件，关于clipboard的使用就不再赘述了，上面介绍时已经讲述过，并且使用方法在官方文档上有*/
+        let _this = this;
+        let clipboard = _this.copyBtn;
+        clipboard.on('success', function() {
+          alert('成功')
+        });
+        clipboard.on('error', function() {
+          alert('复制失败，请手动选择复制！')
+
+        });
       }
     }
   }
@@ -81,7 +113,7 @@
     .list-item-title {
       color: #333;
       padding:0 10px;
-      height: 40px;
+      height: 60px;
       @include flex-row()
     }
 

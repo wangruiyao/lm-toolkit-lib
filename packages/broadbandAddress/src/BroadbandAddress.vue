@@ -20,9 +20,10 @@
                  @scrollToEnd="scrollToEnd"
                  @setScroll="setScroll"
                  >
-        <list-item v-for="item in dataInfo"
+        <list-item v-for="(item, idx) in dataInfo"
                    :key="item.id"
-                   :item-info="item"></list-item>
+                   :item-info="item"
+                   :item-idx="idx"></list-item>
       </tk-scroll>
     </div>
     <!-- 城市选择控件 -->
@@ -69,7 +70,6 @@
       searchAddress() {
         // 山东省济南市历下区工业南路389号解放路与工业南路交叉口院内2号楼102
         addressSearch(this.searchAddressParams).then(data => {
-          console.log('地址信息:'+JSON.stringify(data))
           if (data.msg === '0') {
             this.dataInfo = data.data
           } else {
@@ -90,7 +90,6 @@
       },
       setScroll(scroll){
         this.scroll = scroll;
-        console.log("scroll创建成功");
       },
       scroll(pos){
         // console.log(pos);//监听滚动坐标

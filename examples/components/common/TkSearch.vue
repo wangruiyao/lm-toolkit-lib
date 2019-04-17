@@ -50,7 +50,6 @@
 
       },
       search() {
-        alert(2)
         this.$emit('search', this.searchInfo)
       },
       handleInputfocus() {

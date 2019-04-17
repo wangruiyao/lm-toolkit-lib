@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "better-scroll": "^1.15.1",
+    "clipboard": "^2.0.4",
     "core-js": "^2.6.5",
     "js-pinyin": "^0.1.9",
     "lib-flexible": "^0.3.2",
