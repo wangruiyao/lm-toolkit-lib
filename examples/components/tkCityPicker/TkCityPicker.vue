@@ -53,6 +53,7 @@
 
       },
       selectCity(cityInfo) {
+        toast('目标城市切换至'+cityInfo.city)
         this.globalState.showModule = 'cityList';
         this.$emit('handleselectCity', cityInfo)
       },

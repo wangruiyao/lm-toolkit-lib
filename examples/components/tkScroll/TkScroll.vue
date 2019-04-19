@@ -1,6 +1,12 @@
 <template>
   <div id="tk-scroll" ref="wrapper">
     <div id="tk-scroll-inner">
+      <div v-if="pulldown" class="pulldown"
+           :style="`margin-top:${dragTip.translate}px`">
+        <div class="clear" v-if="dragTip.showLoding">
+          <div class="fl lh30 ml10">{{dragTip.text}}</div>
+        </div>
+      </div>
       <slot></slot><!--分发内容-->
     </div>
   </div>
@@ -25,6 +31,10 @@
       },
       data: {},//传入数据，注意没有对类型做限制，未设置默认值
       pullup:{},//上拉加载更多，传入非false值为开启上拉加载，false为不开启
+      pulldown:{
+        type:Boolean,
+        default:false
+      },
       refreshDelay: {//数据刷新延迟时间
         type: Number,
         default: 20
@@ -44,6 +54,17 @@
       startY: {//纵轴方向初始化位置
         type: Number,
         default: 0
+      }
+    },
+    data(){
+      return{
+        dragTip:{
+          text:"下拉刷新",
+          translate:-50,
+          showLoding:false
+        },
+        isLoading: false,
+        isDone: false,
       }
     },
     mounted() {
@@ -84,6 +105,40 @@
             this.$emit('beforeScroll')
           })
         }
+        // 是否派发顶部下拉事件，用于下拉刷新
+        if(this.pulldown){
+          this.scroll.on('scroll',(pos) => {
+            if (!this.isLoading) {
+              //显示下拉刷新loding
+              this.dragTip.showLoding = true
+              if(pos.y > 150){
+                this.dragTip.text = "释放刷新";
+              }
+            }
+          })
+          this.scroll.on('touchEnd',(pos) => {
+
+            if(pos.y > 150){
+              this.isLoading = true
+              // this.dragTip.translate = 0
+              this.dragTip.text = "刷新中...";
+              //重新初始化
+              this.$on('pullrefresh.finishLoad', this.resetParams);
+              this.$emit('pulldown',pos)
+            }
+          })
+        }
+      },
+      resetParams(){
+        setTimeout(() => {
+          this.isLoading = false;
+          this.isDone = false;
+          this.dragTip = {
+            text:"下拉刷新",
+            translate:-50,
+            showLoding:false
+          }
+        },600)
       },
       disable() {
         this.scroll && this.scroll.disable()
@@ -122,5 +177,8 @@
   }
   #tk-scroll-inner {
     min-height: 660px;
+  }
+  .pulldown {
+    @include flex-row(center)
   }
 </style>

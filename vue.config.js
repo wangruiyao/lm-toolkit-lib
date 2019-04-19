@@ -12,6 +12,7 @@ module.exports = {
       filename: 'index.html'
     }
   },
+  productionSourceMap: false,
   css: {
     extract: false,
     loaderOptions: {

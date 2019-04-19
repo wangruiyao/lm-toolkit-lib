@@ -60,10 +60,11 @@
       },
       addressResSer(params) { // 标准地址资源查询
         addressResSer(params).then((params) => {
+          indicator.close();
           if(params.msg === '0') {
             this.itemSource = params.data[0]
           } else {
-            alert(params.msg)
+            toast(params.msg)
           }
 
         }).catch((err) => {
@@ -72,17 +73,19 @@
       },
       toggleItemContainer(itemInfo) {
 
-        const queryParams = {
-          eparchy: itemInfo.eparchy,
-          addressCode:itemInfo.address_code,
-          exchCode: itemInfo.exch_code
-        };
+
         // console.log('params'+ JSON.stringify(queryParams))
-        this.addressResSer(queryParams)
+
         if(!this.hasReqSource){
-          this.createCopyBtn()
+          indicator.open();
+          const queryParams = {
+            eparchy: itemInfo.eparchy,
+            addressCode:itemInfo.address_code,
+            exchCode: itemInfo.exch_code
+          };
+          this.addressResSer(queryParams);
+          this.createCopyBtn();
           this.hasReqSource = true
-          console.log(itemInfo)
         }
         this.toggleState = !this.toggleState
       },
@@ -94,10 +97,10 @@
         let _this = this;
         let clipboard = _this.copyBtn;
         clipboard.on('success', function() {
-          alert('成功')
+          toast('复制成功');
         });
         clipboard.on('error', function() {
-          alert('复制失败，请手动选择复制！')
+          toast('复制失败，请手动选择复制！')
 
         });
       }

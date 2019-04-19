@@ -1,7 +1,9 @@
 <template>
   <div id="tk-search">
     <form @submit.prevent action="#">
-      <input type="search" v-model="searchInfo"
+      <input type="search"
+             ref="inputDom"
+             v-model="searchInfo"
              @focus="handleInputfocus"
              @blur="handleInputBlur"
              @keypress="mobileSearch"
@@ -30,8 +32,19 @@
     },
     data() {
       return {
+        isFocus: false,
         searchInfo: '',
         showCancleBtn: false
+      }
+    },
+    directives: {
+      focus: {
+        inserted(el, {value}) {
+          console.log(value)
+          if(value) {
+            el.focus()
+          }
+        }
       }
     },
     methods: {
@@ -50,6 +63,7 @@
 
       },
       search() {
+        this.$refs.inputDom.blur();
         this.$emit('search', this.searchInfo)
       },
       handleInputfocus() {
