@@ -2,7 +2,6 @@ var path = require('path');
 function resolve (dir) {
   return path.join(__dirname, dir);
 }
-
 module.exports = {
   // 修改 src 目录 为 examples 目录
   pages: {
@@ -12,7 +11,9 @@ module.exports = {
       filename: 'index.html'
     }
   },
-  productionSourceMap: false,
+  publicPath: process.env.NODE_ENV === 'production'
+    ? './'
+    : './',
   css: {
     extract: false,
     loaderOptions: {
@@ -32,14 +33,14 @@ module.exports = {
     }
   },
   devServer: {
-    historyApiFallback: true, // history模式开启
+    // historyApiFallback: true, // history模式开启
     proxy: {
-      '/api': {
+      '/externallogic': {
         // target: 'http://yapi.demo.qunar.com/mock/62969/toolkit',
-        target: 'http://192.168.0.210:7700/externallogic-lvyg/emarketOpenController/',
+        target: 'http://192.168.0.210:7700/externallogic/',
         changeOrigin: true,
         pathRewrite:{
-          '^/api':''
+          '^/externallogic':''
         }
       }
     }

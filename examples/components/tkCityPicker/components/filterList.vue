@@ -8,7 +8,7 @@
       </div>
     </div>
 
-    <div v-show="list.length === 0">没有找到相关城市</div>
+    <div class="no-result" v-show="list.length === 0">没有找到相关城市</div>
   </div>
 </template>
 
@@ -46,6 +46,11 @@
       height: 40px;
       font-size: 16px;
       color: #333;
+    }
+    .no-result {
+      width: 100%;
+      height: 100%;
+      @include flex-row(center)
     }
   }
 </style>

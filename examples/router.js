@@ -6,9 +6,8 @@ import Router from 'vue-router'
 import toolkit from './../packages/index'
 Vue.use(toolkit);
 Vue.use(Router);
-
 export default new Router({
-  mode: 'history',
+  mode: 'hash',
   base: process.env.BASE_URL,
   routes: [
     {
