@@ -176,6 +176,7 @@
     right: 12px;
   }
   #tk-scroll-inner {
+    padding-top: 50px;
     min-height: 660px;
   }
   .pulldown {

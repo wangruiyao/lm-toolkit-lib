@@ -5,7 +5,8 @@ let handleError = true;
 let handleSuccess = {
   message: ''
 };
-axios.defaults.baseURL = '';
+axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? '/api' : '/externallogic/';
+// console.log('当前环境：' + process.env.NODE_ENV + ' baseurl:' + axios.defaults.baseURL);
 /* 定义标准的http response格式如下：
  * {code:0, data:{}, message: '错误信息'}
  * code === 0 时为后台正确处理了请求，并且返回了data参数

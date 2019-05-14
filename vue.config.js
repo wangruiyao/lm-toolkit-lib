@@ -35,12 +35,12 @@ module.exports = {
   devServer: {
     // historyApiFallback: true, // history模式开启
     proxy: {
-      '/externallogic': {
+      '/api': {
         // target: 'http://yapi.demo.qunar.com/mock/62969/toolkit',
         target: 'http://192.168.0.210:7700/externallogic/',
         changeOrigin: true,
         pathRewrite:{
-          '^/externallogic':''
+          '^/api':''
         }
       }
     }

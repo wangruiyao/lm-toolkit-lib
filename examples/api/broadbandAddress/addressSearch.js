@@ -4,7 +4,7 @@
 
 export function addressSearch (params) {    // 获取用户信息api ajax
   return ajax({
-    url: '/externallogic/emarketOpenController/addressSearch',
+    url: '/emarketOpenController/addressSearch',
     method: 'post',
     data: params,
     catchError: true
