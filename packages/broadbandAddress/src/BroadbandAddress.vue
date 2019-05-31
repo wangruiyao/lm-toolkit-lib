@@ -113,7 +113,8 @@
         })
       },
       queryInfo(info) {
-        this.searchAddressParams.addressKeyword = info
+        sessionStorage.setItem('addressKeyword', info);
+        this.searchAddressParams.addressKeyword = info;
         this.searchAddress()
       },
       scrollToEnd(scroll){

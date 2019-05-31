@@ -72,13 +72,13 @@
         })
       },
       toggleItemContainer(itemInfo) {
-
-
         // console.log('params'+ JSON.stringify(queryParams))
 
         if(!this.hasReqSource){
           indicator.open();
           const queryParams = {
+            address: itemInfo.address_name,
+            addressKeyword: sessionStorage.getItem('addressKeyword'),
             eparchy: itemInfo.eparchy,
             addressCode:itemInfo.address_code,
             exchCode: itemInfo.exch_code
