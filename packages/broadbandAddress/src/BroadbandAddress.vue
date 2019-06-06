@@ -5,7 +5,7 @@
       <tk-header>
         <!--<div @click="test">111</div>-->
         <div class="header-search">
-          <tk-search place-holder="地址关键字" @search="queryInfo"></tk-search>
+          <tk-search place-holder="地址关键字" @search="queryInfo" :show-search-icon="true"></tk-search>
         </div>
         <div @click="toggleCitypicker(true)">
           <tk-header-filter :city-name="globalState.nowCityInfo.city"></tk-header-filter>

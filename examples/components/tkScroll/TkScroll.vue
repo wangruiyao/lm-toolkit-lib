@@ -84,9 +84,10 @@
           bounceTime: this.bounceTime,
           momentumLimitTime: this.momentumLimitTime,
           scrollY: true,
-          scrollX: true,
+          scrollX: false,
           startY: this.startY,
-          pullUpLoad: this.pullup
+          pullUpLoad: this.pullup,
+          mouseWheel: true
         })
         this.$emit('setScroll',this.scroll);
         if (this.listenScroll) {

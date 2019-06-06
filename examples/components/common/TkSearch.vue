@@ -13,6 +13,10 @@
          v-show="showCloseIcon && showCancleBtn"
          @click="handleCancleInput">&#xe7be;
       </i>
+      <i class="input-search iconfont"
+         v-show="showSearchIcon"
+         @click="search">&#xe621;
+      </i>
     </form>
   </div>
 </template>
@@ -26,6 +30,10 @@
         default: `搜索`
       },
       'showCloseIcon': {
+        type: Boolean,
+        default: false
+      },
+      'showSearchIcon': {
         type: Boolean,
         default: false
       }
@@ -111,6 +119,14 @@
       right: 10px;
       color: #999;
       font-size: 14px;
+    }
+
+    .input-search {
+      margin-top: -5px;
+      position: absolute;
+      right: 10px;
+      color: #999;
+      font-size: 20px;
     }
   }
 </style>
